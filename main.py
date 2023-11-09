@@ -12,6 +12,11 @@ github_token = os.environ.get('GITHUB_TOKEN')
 llama_url = os.environ.get('LLAMA_URL')
 repo_name = f'{owner}/{repo}'
 
+print(f"Owner: {owner}")
+print(f"Repo: {repo}")
+print(f"PR Number: {pr_number}")
+print(f"Repo Name: {repo_name}")
+
 
 class Category(Enum):
     BLUE = 'BLUE'
