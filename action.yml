@@ -7,15 +7,15 @@ inputs:
   LLAMA_URL:
     description: 'Llama.cpp API URL'
     required: true
-  owner:
+  OWNER:
     description: 'Repository owner'
     required: false
     default: ${{ github.repository_owner }}
-  repo:
+  REPO:
     description: 'Repository name'
     required: false
     default: ${{ github.repository.name }}
-  pr_number:
+  PR_NUMBER:
     description: 'Pull request number'
     required: false
     default: ${{ github.event.pull_request.number }}
@@ -40,6 +40,6 @@ runs:
       env:
         GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
         LLAMA_URL: ${{ inputs.LLAMA_URL }}
-        OWNER: ${{ inputs.owner }}
-        REPO: ${{ inputs.repo }}
-        pr_number: ${{ inputs.pr_number }}
+        OWNER: ${{ inputs.OWNER }}
+        REPO: ${{ inputs.REPO }}
+        PR_NUMBER: ${{ inputs.PR_NUMBER }}

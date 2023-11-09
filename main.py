@@ -60,7 +60,7 @@ def get_repo_desc(repo_name, access_token):
         description = repo_data.get('description', 'No description provided.')
         return description
     else:
-        print('Failed to retrieve repository information:', response.status_code)
+        print('Failed to retrieve repository information:', response.status_code, url)
 
 
 def get_rules(repo_name, access_token, rules_override=None):
@@ -106,7 +106,7 @@ def get_pr_desc(repo_name, pr, access_token):
         pr_description = pr_data.get('body', 'No description provided.')  # Get the PR description
         return pr_title, pr_description
     else:
-        print('Failed to retrieve PR description:', response.status_code)
+        print('Failed to retrieve PR description:', response.status_code, url)
 
 
 def query_llama(prompt: str) -> str:
@@ -134,7 +134,7 @@ def query_llama(prompt: str) -> str:
         llama_text = response.json()['content']
         return llama_text
     else:
-        print('Failed to retrieve llama text:', response.status_code)
+        print('Failed to retrieve llama text:', response.status_code, url)
 
 
 def query_and_parse_llama(prompt) -> (Optional[Category], str):
@@ -191,7 +191,7 @@ def create_label_if_not_exists(repo_name, label_name, label_color, access_token)
         else:
             print(f"Label '{label_name}' already exists.")
     else:
-        print(f"Failed to retrieve labels: {response.content}")
+        print(f"Failed to retrieve labels: {response.content}", labels_url)
 
 
 def add_label_to_pr(repo, pr, label, access_token):
@@ -214,7 +214,7 @@ def add_label_to_pr(repo, pr, label, access_token):
     if response.status_code == 200:
         print(f"Label '{label}' added to PR #{pr_number} successfully.")
     else:
-        print(f"Failed to add label '{label}' to PR #{pr_number}: {response.content}")
+        print(f"Failed to add label '{label}' to PR #{pr_number}: {response.content}", labels_url)
 
 
 def add_comment_to_pr(repo_name, pr, comment_body, access_token):
@@ -246,7 +246,7 @@ def add_comment_to_pr(repo_name, pr, comment_body, access_token):
     if response.status_code == 201:
         print(f"Comment added to PR #{pr} successfully.")
     else:
-        print(f"Failed to add comment to PR #{pr}: {response.content}")
+        print(f"Failed to add comment to PR #{pr}: {response.content}", comments_url)
 
 
 # Define labels and their respective colors
