@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "pr-rating-action"
+version = "0.1.0"
+description = ""
+authors = ["mhh <mike.hukiewitz@robotter.ai>"]
+readme = "README.md"
+packages = [{include = "pr_rating_action"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+requests = "^2.31.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
