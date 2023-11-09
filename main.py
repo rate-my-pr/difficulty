@@ -168,9 +168,19 @@ def create_label_if_not_exists(repo_name, label_name, label_color, access_token)
 
         if label_name not in label_names:
             # Create the label
+            if label_name == "BLUE":
+                description = "This PR is simple and straightforward."
+            elif label_name == "RED":
+                description = "This PR is complex and may require more time to review."
+            elif label_name == "BLACK":
+                description = "This PR has critical implications and must be reviewed by a senior engineer."
+            else:
+                description = None
+
             data = {
                 "name": label_name,
-                "color": label_color
+                "color": label_color,
+                "description": description
             }
             create_response = requests.post(labels_url, json=data, headers=headers)
 
