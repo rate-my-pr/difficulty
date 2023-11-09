@@ -10,7 +10,7 @@ repo = os.environ.get('REPO')
 pr_number = os.environ.get('PR_NUMBER')
 github_token = os.environ.get('GITHUB_TOKEN')
 llama_url = os.environ.get('LLAMA_URL')
-repo_name = f'{owner}/{repo}'
+repo_name = repo
 
 print(f"Owner: {owner}")
 print(f"Repo: {repo}")
