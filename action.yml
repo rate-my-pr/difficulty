@@ -14,7 +14,7 @@ inputs:
   REPO:
     description: 'Repository name'
     required: false
-    default: ${{ github.repository.name }}
+    default: ${{ github.repository }}
   PR_NUMBER:
     description: 'Pull request number'
     required: false
