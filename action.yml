@@ -25,8 +25,8 @@ runs:
     - name: Checkout action repo
       uses: actions/checkout@v2
       with:
-        repository: MHHukiewitz/pr-rating-action  # Replace with your action's repository
-        ref: main  # Replace with the branch or tag you want to use
+        repository: rate-my-pr/gh-action
+        ref: main
     - uses: actions/setup-python@v2
       with:
         python-version: '3.11'
