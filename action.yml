@@ -10,12 +10,15 @@ inputs:
   owner:
     description: 'Repository owner'
     required: false
+    default: ${{ github.repository_owner }}
   repo:
     description: 'Repository name'
     required: false
+    default: ${{ github.repository.name }}
   pr_number:
     description: 'Pull request number'
     required: false
+    default: ${{ github.event.pull_request.number }}
 runs:
   using: 'composite'
   steps:
@@ -33,6 +36,6 @@ runs:
       env:
         GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
         LLAMA_URL: ${{ inputs.LLAMA_URL }}
-        OWNER: ${{ inputs.owner ?? github.repository_owner }}
-        REPO: ${{ inputs.repo ?? github.repository.name }}
-        pr_number: ${{ inputs.pr_number ?? github.event.pull_request.number }}
+        OWNER: ${{ inputs.owner }}
+        REPO: ${{ inputs.repo }}
+        pr_number: ${{ inputs.pr_number }}
