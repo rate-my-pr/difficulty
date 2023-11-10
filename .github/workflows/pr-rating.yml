@@ -18,7 +18,7 @@ jobs:
 
       - name: Set Action Path
         id: set-action-path
-        run: echo "::set-output name=action_path::./.github/actions/gh-action"  # Path to your action in your repo
+        run: echo "::set-output name=action_path::./action.yml"
 
       - name: PR Difficulty Rating
         uses: ${{ steps.set-action-path.outputs.action_path }}
