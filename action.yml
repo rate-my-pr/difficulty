@@ -6,8 +6,7 @@ inputs:
     required: true
   LLAMA_URL:
     description: 'Llama.cpp API URL'
-    required: false
-    default: ${{ secrets.LLAMA_URL }}
+    required: true
   OWNER:
     description: 'Repository owner'
     required: false
