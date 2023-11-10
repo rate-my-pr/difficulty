@@ -12,6 +12,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: PR Difficulty Rating
-        uses: rate-my-pr/gh-action@main
+        uses: rate-my-pr/gh-action@${{ github.event.pull_request.head.sha }}
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
