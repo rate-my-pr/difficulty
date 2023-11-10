@@ -4,8 +4,10 @@ permissions:
   pull-requests: write
 
 on:
+  push:
+    branches: [ master ]
   pull_request:
-    types: [opened, reopened, synchronize]
+    branches: [ master ]
 
 jobs:
   difficulty-rating:
