@@ -9,6 +9,8 @@ owner = os.environ.get('OWNER')
 repo = os.environ.get('REPO')
 pr_number = os.environ.get('PR_NUMBER')
 github_token = os.environ.get('GITHUB_TOKEN')
+llama_url = os.environ.get('LLAMA_URL')
+print(f"Llama URL: {llama_url}")
 repo_name = repo
 
 
@@ -98,7 +100,7 @@ def get_pr_desc(repo_name, pr, access_token):
 
 def query_llama(prompt: str) -> str:
     # The URL for the llama API
-    url = f'{os.environ.get("LLAMA_URL")}/completion'
+    url = f'{llama_url}/completion'
 
     # Set up the headers to accept JSON
     headers = {
