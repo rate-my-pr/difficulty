@@ -1,0 +1,12 @@
+name: Test PR Difficulty Rating Action
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  difficulty-rating:
+    runs-on: ubuntu-latest
+    steps:
+      - name: PR Difficulty Rating
+        uses: rate-my-pr/gh-action@main

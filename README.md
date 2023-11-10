@@ -16,7 +16,7 @@ name: PR Rating
 
 on:
   pull_request:
-    types: [opened, edited, synchronize, reopened]
+    types: [opened]
 
 jobs:
     rate:
