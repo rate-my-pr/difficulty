@@ -13,14 +13,17 @@ The action adds a label and comment explaining the decision and important aspect
 
 You need to have a [CodeLlama](https://huggingface.co/Phind/Phind-CodeLlama-34B-v2) model running somewhere and provide the URL to the model as a secret to the action:
 ```yaml
-name: PR Rating
+name: PR Difficulty Rating
 
+permissions:
+  pull-requests: write
+  
 on:
   pull_request:
     types: [opened, reopened]  # good for most use cases
 
 jobs:
-    rate:
+    rate-me:
         runs-on: ubuntu-latest
         steps:
         - uses: actions/checkout@v2
