@@ -1,10 +1,10 @@
 [tool.poetry]
 name = "pr-rating-action"
-version = "0.1.0"
+version = "1.0.0"
 description = ""
 authors = ["mhh <mike.hukiewitz@robotter.ai>"]
 readme = "README.md"
-packages = [{include = "pr_rating_action"}]
+packages = [{include = "."}]
 
 [tool.poetry.dependencies]
 python = "^3.11"

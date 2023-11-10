@@ -12,11 +12,6 @@ github_token = os.environ.get('GITHUB_TOKEN')
 llama_url = os.environ.get('LLAMA_URL')
 repo_name = repo
 
-print(f"Owner: {owner}")
-print(f"Repo: {repo}")
-print(f"PR Number: {pr_number}")
-print(f"Repo Name: {repo_name}")
-
 
 class Category(Enum):
     BLUE = 'BLUE'
@@ -130,16 +125,19 @@ def query_llama(prompt: str) -> str:
         'temperature': 0.0,
     }
 
-    # Make the POST request to the llama API
-    response = requests.post(url, headers=headers, json=data)
+    try:
+        # Make the POST request to the llama API
+        response = requests.post(url, headers=headers, json=data)
 
-    # Check if the request was successful
-    if response.status_code == 200:
-        # The response is a JSON object with the generated text under the 'text' key
-        llama_text = response.json()['content']
-        return llama_text
-    else:
-        print('Failed to retrieve llama text:', response.status_code, url)
+        # Check if the request was successful
+        if response.status_code == 200:
+            # The response is a JSON object with the generated text under the 'text' key
+            llama_text = response.json()['content']
+            return llama_text
+        else:
+            return f'Failed to retrieve llama text: POST {response.status_code} {url}: {response.text}'
+    except Exception as e:
+        return f'Failed to retrieve llama text: {e}'
 
 
 def query_and_parse_llama(prompt) -> (Optional[Category], str):
@@ -194,7 +192,7 @@ def create_label_if_not_exists(repo_name, label_name, label_color, access_token)
             else:
                 print(f"Failed to create label '{label_name}': {create_response.content}")
         else:
-            print(f"Label '{label_name}' already exists.")
+            pass
     else:
         print(f"Failed to retrieve labels: {response.content}", labels_url)
 
