@@ -1,0 +1,19 @@
+name: Test PR Difficulty Rating Action
+
+permissions:
+  pull-requests: write
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+jobs:
+  difficulty-rating:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Integration test
+        uses: ./ # Uses an action in the root directory
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LLAMA_URL: ${{ secrets.LLAMA_URL }}

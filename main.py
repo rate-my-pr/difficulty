@@ -12,11 +12,6 @@ github_token = os.environ.get('GITHUB_TOKEN')
 llama_url = os.environ.get('LLAMA_URL')
 repo_name = repo
 
-print(f"Owner: {owner}")
-print(f"Repo: {repo}")
-print(f"PR Number: {pr_number}")
-print(f"Repo Name: {repo_name}")
-
 
 class Category(Enum):
     BLUE = 'BLUE'
@@ -29,10 +24,7 @@ def get_diff(repo_name, pr, access_token):
     url = f'https://api.github.com/repos/{repo_name}/pulls/{pr}'
 
     # Set up the headers to get the diff format and to authenticate with your token
-    headers = {
-        'Accept': 'application/vnd.github.VERSION.diff',
-        'Authorization': f'token {access_token}'
-    }
+    headers = get_auth_header(access_token)
 
     # Make the GET request to the GitHub API
     response = requests.get(url, headers=headers)
@@ -50,10 +42,7 @@ def get_repo_desc(repo_name, access_token):
     url = f'https://api.github.com/repos/{repo_name}'
 
     # The headers for authorization (if needed)
-    headers = {
-        'Authorization': f'token {access_token}',
-        'Accept': 'application/vnd.github.v3+json'
-    }
+    headers = get_auth_header(access_token)
 
     # Make the GET request to the GitHub API
     response = requests.get(url, headers=headers)
@@ -75,10 +64,7 @@ def get_rules(repo_name, access_token, rules_override=None):
     url = f'https://api.github.com/repos/{repo_name}/contents/code-rev-rules.txt'
 
     # Set up the headers for authorization (if needed) and to accept the content in JSON format
-    headers = {
-        'Authorization': f'token {access_token}',
-        'Accept': 'application/vnd.github.v3.raw'
-    }
+    headers = get_auth_header(access_token)
 
     # Make the GET request to the GitHub API
     response = requests.get(url, headers=headers)
@@ -96,10 +82,7 @@ def get_pr_desc(repo_name, pr, access_token):
     url = f'https://api.github.com/repos/{repo_name}/pulls/{pr}'
 
     # Set up the headers for authorization (if needed)
-    headers = {
-        'Authorization': f'token {access_token}',
-        'Accept': 'application/vnd.github.v3+json'
-    }
+    headers = get_auth_header(access_token)
 
     # Make the GET request to the GitHub API
     response = requests.get(url, headers=headers)
@@ -130,16 +113,19 @@ def query_llama(prompt: str) -> str:
         'temperature': 0.0,
     }
 
-    # Make the POST request to the llama API
-    response = requests.post(url, headers=headers, json=data)
+    try:
+        # Make the POST request to the llama API
+        response = requests.post(url, headers=headers, json=data)
 
-    # Check if the request was successful
-    if response.status_code == 200:
-        # The response is a JSON object with the generated text under the 'text' key
-        llama_text = response.json()['content']
-        return llama_text
-    else:
-        print('Failed to retrieve llama text:', response.status_code, url)
+        # Check if the request was successful
+        if response.status_code == 200:
+            # The response is a JSON object with the generated text under the 'text' key
+            llama_text = response.json()['content']
+            return llama_text
+        else:
+            return f'Failed to retrieve llama text: POST {response.status_code} {url}: {response.text}'
+    except Exception as e:
+        return f'Failed to retrieve llama text: {e}'
 
 
 def query_and_parse_llama(prompt) -> (Optional[Category], str):
@@ -158,10 +144,7 @@ def query_and_parse_llama(prompt) -> (Optional[Category], str):
 
 
 def create_label_if_not_exists(repo_name, label_name, label_color, access_token):
-    headers = {
-        "Authorization": f"token {access_token}",
-        "Accept": "application/vnd.github.v3+json"
-    }
+    headers = get_auth_header(access_token)
 
     # Check if the label already exists
     labels_url = f"https://api.github.com/repos/{repo_name}/labels"
@@ -194,16 +177,13 @@ def create_label_if_not_exists(repo_name, label_name, label_color, access_token)
             else:
                 print(f"Failed to create label '{label_name}': {create_response.content}")
         else:
-            print(f"Label '{label_name}' already exists.")
+            pass
     else:
         print(f"Failed to retrieve labels: {response.content}", labels_url)
 
 
 def add_label_to_pr(repo, pr, label, access_token):
-    headers = {
-        "Authorization": f"token {access_token}",
-        "Accept": "application/vnd.github.v3+json"
-    }
+    headers = get_auth_header(access_token)
 
     # GitHub API URL for issue labels (PRs are considered issues in the API)
     labels_url = f"https://api.github.com/repos/{repo}/issues/{pr}/labels"
@@ -222,6 +202,14 @@ def add_label_to_pr(repo, pr, label, access_token):
         print(f"Failed to add label '{label}' to PR #{pr_number}: {response.content}", labels_url)
 
 
+def get_auth_header(access_token):
+    headers = {
+        "Authorization": f"token {access_token}",
+        "Accept": "application/vnd.github.v3+json"
+    }
+    return headers
+
+
 def add_comment_to_pr(repo_name, pr, comment_body, access_token):
     """
     Add a comment to a pull request on GitHub.
@@ -232,10 +220,7 @@ def add_comment_to_pr(repo_name, pr, comment_body, access_token):
     comment_body (str): The content of the comment to add to the pull request.
     access_token (str): Personal access token for GitHub API authentication.
     """
-    headers = {
-        "Authorization": f"token {access_token}",
-        "Accept": "application/vnd.github.v3+json"
-    }
+    headers = get_auth_header(access_token)
 
     # GitHub API URL for issue comments (PRs are treated as issues for comments)
     comments_url = f"https://api.github.com/repos/{repo_name}/issues/{pr}/comments"
@@ -256,8 +241,8 @@ def add_comment_to_pr(repo_name, pr, comment_body, access_token):
 
 # Define labels and their respective colors
 labels = {
-    "BLUE": "3b5998",
-    "RED": "ff0000",
+    "BLUE": "2A3EDD",
+    "RED": "DD2A2A",
     "BLACK": "000000"
 }
 
