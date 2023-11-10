@@ -17,15 +17,27 @@ name: PR Rating
 
 on:
   pull_request:
-    types: [opened, reopened, ]  # good for most use cases
+    types: [opened, reopened]  # good for most use cases
 
 jobs:
     rate:
         runs-on: ubuntu-latest
         steps:
         - uses: actions/checkout@v2
-        - uses: pr-rating-action/gh-action@v1
-            with:
-                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                LLAMA_URL: ${{ secrets.LLAMA_URL }}
-    ```
+        - uses: pr-rating-action/gh-action@v1.0.0
+          with:
+              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              LLAMA_URL: ${{ secrets.LLAMA_URL }}
+```
+
+### Fine-tuning
+You can fine-tune the prompt by adding "rules" in a `code-rev-rules.txt` of the project. These will be injected into the prompt before the diff.
+
+A few examples:
+```
+If main.py is changed, then the PR is BLACK.
+
+Python files are easier to review than C++ files.
+
+Blue PRs are good for interns. Red PRs are good for juniors. Black PRs are good for seniors.
+```
