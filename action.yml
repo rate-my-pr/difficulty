@@ -3,8 +3,7 @@ description: 'Provides a difficulty rating for PRs based on content diffs. Ratin
 inputs:
   GITHUB_TOKEN:
     description: 'GitHub Token for authentication'
-    required: false
-    default: ${{ github.token }}
+    required: true
   LLAMA_URL:
     description: 'Llama.cpp API URL'
     required: false

@@ -1,5 +1,8 @@
 name: Test PR Difficulty Rating Action
 
+permissions:
+  pull-requests: write
+
 on:
   pull_request:
     types: [opened]
@@ -10,3 +13,5 @@ jobs:
     steps:
       - name: PR Difficulty Rating
         uses: rate-my-pr/gh-action@main
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
