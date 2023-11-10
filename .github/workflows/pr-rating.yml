@@ -11,7 +11,16 @@ jobs:
   difficulty-rating:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Set Action Path
+        id: set-action-path
+        run: echo "::set-output name=action_path::./.github/actions/gh-action"  # Path to your action in your repo
+
       - name: PR Difficulty Rating
-        uses: rate-my-pr/gh-action@{{ github.head_ref }}
+        uses: ${{ steps.set-action-path.outputs.action_path }}
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
