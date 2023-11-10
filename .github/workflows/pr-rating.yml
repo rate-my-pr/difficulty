@@ -11,6 +11,7 @@ jobs:
   difficulty-rating:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - name: PR Difficulty Rating
         uses: ./action.yml
         with:
