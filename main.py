@@ -10,7 +10,6 @@ repo = os.environ.get('REPO')
 pr_number = os.environ.get('PR_NUMBER')
 github_token = os.environ.get('GITHUB_TOKEN')
 llama_url = os.environ.get('LLAMA_URL')
-print(f"Llama URL: {llama_url}")
 repo_name = repo
 
 
