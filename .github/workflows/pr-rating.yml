@@ -11,16 +11,7 @@ jobs:
   difficulty-rating:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ github.head_ref }}
-
-      - name: Set Action Path
-        id: set-action-path
-        run: echo "::set-output name=action_path::./action.yml"
-
       - name: PR Difficulty Rating
-        uses: ${{ steps.set-action-path.outputs.action_path }}
+        uses: ./action.yml
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
