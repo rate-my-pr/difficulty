@@ -11,7 +11,8 @@ jobs:
   difficulty-rating:
     runs-on: ubuntu-latest
     steps:
-      - uses: ./ # Uses an action in the root directory
-        id: pr-difficulty-rating
+      - uses: actions/checkout@v3
+      - name: Integration test
+        uses: ./ # Uses an action in the root directory
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
