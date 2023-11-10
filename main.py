@@ -241,8 +241,8 @@ def add_comment_to_pr(repo_name, pr, comment_body, access_token):
 
 # Define labels and their respective colors
 labels = {
-    "BLUE": "3b5998",
-    "RED": "ff0000",
+    "BLUE": "2A3EDD",
+    "RED": "DD2A2A",
     "BLACK": "000000"
 }
 
