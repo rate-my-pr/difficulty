@@ -11,10 +11,7 @@ jobs:
   difficulty-rating:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - run: ls -la
-        shell: bash
-      - name: PR Difficulty Rating
-        uses: rate-my-pr/gh-action
+      - uses: ./ # Uses an action in the root directory
+        id: pr-difficulty-rating
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
