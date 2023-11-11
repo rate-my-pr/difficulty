@@ -17,20 +17,21 @@ name: PR Difficulty Rating
 
 permissions:
   pull-requests: write
-  
+
 on:
   pull_request:
-    types: [ready_for_review]  # good for most use cases
+    types: [opened, ready_for_review]
 
 jobs:
-    rate-me:
-        runs-on: ubuntu-latest
-        steps:
-        - uses: actions/checkout@v2
-        - uses: pr-rating-action/gh-action@v1.0.0
-          with:
-              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              LLAMA_URL: ${{ secrets.LLAMA_URL }}
+  rate-me:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
+    steps:
+    - uses: actions/checkout@v2
+    - uses: pr-rating-action/gh-action@v1.0.0
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        LLAMA_URL: ${{ secrets.LLAMA_URL }}
 ```
 
 ### Fine-tuning
