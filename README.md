@@ -20,12 +20,12 @@ permissions:
 
 on:
   pull_request:
-    types: [opened, ready_for_review]
+    types: [opened, reopened, ready_for_review]  # only run on PRs that are ready for review
 
 jobs:
   rate-me:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.draft == false
+    if: github.event.pull_request.draft == false  # only run on PRs that are not drafts
     steps:
     - uses: actions/checkout@v2
     - uses: pr-rating-action/gh-action@v1.0.0
