@@ -20,7 +20,7 @@ permissions:
   
 on:
   pull_request:
-    types: [opened, reopened]  # good for most use cases
+    types: [ready_for_review]  # good for most use cases
 
 jobs:
     rate-me:
