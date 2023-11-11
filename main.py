@@ -10,6 +10,9 @@ repo = os.environ.get('REPO')
 pr_number = os.environ.get('PR_NUMBER')
 github_token = os.environ.get('GITHUB_TOKEN')
 llama_url = os.environ.get('LLAMA_URL')
+# strip trailing slash
+llama_url = llama_url[:-1] if llama_url.endswith('/') else llama_url
+
 repo_name = repo
 
 
@@ -253,7 +256,6 @@ for label, color in labels.items():
 repo_desc = get_repo_desc(repo_name, github_token)
 diff = get_diff(repo_name, pr_number, github_token)
 rules = get_rules(repo_name, github_token)
-pr_title, pr_description = get_pr_desc(repo_name, pr_number, github_token)
 
 user_prompt = f"""
 --- {repo} ---
