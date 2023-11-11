@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pr-rating-action"
-version = "1.0.2"
+version = "1.0.3"
 description = ""
 authors = ["mhh <mike.hukiewitz@robotter.ai>"]
 readme = "README.md"
