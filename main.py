@@ -114,7 +114,7 @@ def query_llama(prompt: str) -> str:
     data = {
         'prompt': prompt,
         'stream': False,
-        'temperature': 0.0,
+        'temperature': 0.7,
     }
 
     try:
@@ -139,12 +139,17 @@ def query_and_parse_llama(prompt) -> (Optional[Category], str):
     comment = None
     for i, line in enumerate(llama_text.split('\n')):
         if Category.BLUE.value in line or Category.RED.value in line or Category.BLACK.value in line.upper():
-            category = Category(line.upper())
+            if Category.BLUE.value in line:
+                category = Category.BLUE
+            elif Category.RED.value in line:
+                category = Category.RED
+            elif Category.BLACK.value in line.upper():
+                category = Category.BLACK
             comment = '\n'.join(llama_text.split('\n')[i+1:])
             break
     if not category:
         return None, llama_text
-    return Category(category), comment
+    return category, comment
 
 
 def create_label_if_not_exists(repo_name, label_name, label_color, access_token):
