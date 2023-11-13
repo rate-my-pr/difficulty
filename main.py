@@ -10,6 +10,7 @@ repo = os.environ.get('REPO')
 pr_number = os.environ.get('PR_NUMBER')
 github_token = os.environ.get('GITHUB_TOKEN')
 llama_url = os.environ.get('LLAMA_URL')
+dry_run = os.environ.get('DRY_RUN', False)
 # strip trailing slash
 llama_url = llama_url[:-1] if llama_url.endswith('/') else llama_url
 
@@ -27,7 +28,7 @@ def get_diff(repo_name, pr, access_token):
     url = f'https://api.github.com/repos/{repo_name}/pulls/{pr}'
 
     # Set up the headers to get the diff format and to authenticate with your token
-    headers = get_auth_header(access_token)
+    headers = get_auth_header(access_token, accept_header="application/vnd.github.v3.diff")
 
     # Make the GET request to the GitHub API
     response = requests.get(url, headers=headers)
@@ -113,7 +114,7 @@ def query_llama(prompt: str) -> str:
     data = {
         'prompt': prompt,
         'stream': False,
-        'temperature': 0.0,
+        'temperature': 0.7,
     }
 
     try:
@@ -138,12 +139,17 @@ def query_and_parse_llama(prompt) -> (Optional[Category], str):
     comment = None
     for i, line in enumerate(llama_text.split('\n')):
         if Category.BLUE.value in line or Category.RED.value in line or Category.BLACK.value in line.upper():
-            category = Category(line.upper())
+            if Category.BLUE.value in line:
+                category = Category.BLUE
+            elif Category.RED.value in line:
+                category = Category.RED
+            elif Category.BLACK.value in line.upper():
+                category = Category.BLACK
             comment = '\n'.join(llama_text.split('\n')[i+1:])
             break
     if not category:
         return None, llama_text
-    return Category(category), comment
+    return category, comment
 
 
 def create_label_if_not_exists(repo_name, label_name, label_color, access_token):
@@ -205,10 +211,10 @@ def add_label_to_pr(repo, pr, label, access_token):
         print(f"Failed to add label '{label}' to PR #{pr_number}: {response.content}", labels_url)
 
 
-def get_auth_header(access_token):
+def get_auth_header(access_token, accept_header="application/vnd.github.v3+json"):
     headers = {
         "Authorization": f"token {access_token}",
-        "Accept": "application/vnd.github.v3+json"
+        "Accept": accept_header
     }
     return headers
 
@@ -242,17 +248,6 @@ def add_comment_to_pr(repo_name, pr, comment_body, access_token):
         print(f"Failed to add comment to PR #{pr}: {response.content}", comments_url)
 
 
-# Define labels and their respective colors
-labels = {
-    "BLUE": "2A3EDD",
-    "RED": "DD2A2A",
-    "BLACK": "000000"
-}
-
-# Create each label if it does not exist
-for label, color in labels.items():
-    create_label_if_not_exists(repo_name, label, color, github_token)
-
 repo_desc = get_repo_desc(repo_name, github_token)
 diff = get_diff(repo_name, pr_number, github_token)
 rules = get_rules(repo_name, github_token)
@@ -279,13 +274,26 @@ full_prompt = f"""### System Prompt
 ### Assistant
 """
 
+print(f"Prompt: {full_prompt}")
+
 category, comment = query_and_parse_llama(full_prompt)
 
-if category:
-    print(f"Category: {category}")
-    add_label_to_pr(repo_name, pr_number, category.value, github_token)
-    print(f"Comment: {comment}")
-    add_comment_to_pr(repo_name, pr_number, comment, github_token)
-else:
-    print(f"Could not find category in response: {comment}")
-    add_comment_to_pr(repo_name, pr_number, comment, github_token)
+print(f"Category: {category}")
+print(f"Comment: {comment}")
+
+if not dry_run:
+    # Define labels and their respective colors
+    labels = {
+        "BLUE": "2A3EDD",
+        "RED": "DD2A2A",
+        "BLACK": "000000"
+    }
+    # Create each label if it does not exist
+    for label, color in labels.items():
+        create_label_if_not_exists(repo_name, label, color, github_token)
+    if category:
+        add_label_to_pr(repo_name, pr_number, category.value, github_token)
+        add_comment_to_pr(repo_name, pr_number, comment, github_token)
+    else:
+        print(f"Could not find category in response: {comment}")
+        add_comment_to_pr(repo_name, pr_number, comment, github_token)
