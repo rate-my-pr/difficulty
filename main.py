@@ -1,4 +1,5 @@
 import os
+import time
 from enum import Enum
 from typing import Optional
 
@@ -101,7 +102,7 @@ def get_pr_desc(repo_name, pr, access_token):
         print('Failed to retrieve PR description:', response.status_code, url)
 
 
-def query_llama(prompt: str) -> str:
+def query_llama(prompt: str, max_retries=3, delay=2) -> str:
     # The URL for the llama API
     url = f'{llama_url}/completion'
 
@@ -117,19 +118,27 @@ def query_llama(prompt: str) -> str:
         'temperature': 0.7,
     }
 
-    try:
-        # Make the POST request to the llama API
-        response = requests.post(url, headers=headers, json=data)
+    for attempt in range(max_retries):
+        try:
+            # Make the POST request to the llama API
+            response = requests.post(url, headers=headers, json=data)
 
-        # Check if the request was successful
-        if response.status_code == 200:
-            # The response is a JSON object with the generated text under the 'text' key
-            llama_text = response.json()['content']
-            return llama_text
-        else:
-            return f'Failed to retrieve llama text: POST {response.status_code} {url}: {response.text}'
-    except Exception as e:
-        return f'Failed to retrieve llama text: {e}'
+            # Check if the request was successful
+            if response.status_code == 200:
+                # The response is a JSON object with the generated text under the 'content' key
+                llama_text = response.json()['content']
+                return llama_text
+            else:
+                error_message = f'Failed to retrieve llama text: POST {response.status_code} {url}: {response.text}'
+                if attempt < max_retries - 1:
+                    time.sleep(delay)  # Wait for some time before retrying
+                else:
+                    return error_message
+        except Exception as e:
+            if attempt < max_retries - 1:
+                time.sleep(delay)  # Wait for some time before retrying
+            else:
+                return f'Failed to retrieve llama text: {e}'
 
 
 def query_and_parse_llama(prompt) -> (Optional[Category], str):
