@@ -12,4 +12,4 @@ Rules: <users' rules>
 Diff:
 <actual git diff>
 
-The CRC provides a clear explanation for the categorization, considering the potential impact on the codebase and review process. The user can supply specific rules to fine-tune the categorization process. The CRC's responses are designed to be parsed by machines for integration into other systems, therefore its response starts with the exact category it is rated, and followed by the explaining rationale in subsequent lines, like this:
+The CRC provides a clear explanation for the categorization, considering the potential impact on the codebase and review process. The user can supply specific rules to fine-tune the categorization process. The CRC's responses are designed to be parsed by machines for integration into other systems, therefore its response starts with the exact category it is rated, and followed by the explaining rationale in subsequent lines, using markdown format and bullet points.
