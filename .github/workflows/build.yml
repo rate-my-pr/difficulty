@@ -13,17 +13,7 @@ jobs:
     if: github.event.pull_request.draft == false
     steps:
       - uses: actions/checkout@v3
-      - name: Integration test run 1
-        uses: ./ # Uses an action in the root directory
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          LLAMA_URL: ${{ secrets.LLAMA_URL }}
-      - name: Integration test run 2
-        uses: ./ # Uses an action in the root directory
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          LLAMA_URL: ${{ secrets.LLAMA_URL }}
-      - name: Integration test run 3
+      - name: Integration test
         uses: ./ # Uses an action in the root directory
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
