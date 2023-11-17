@@ -115,7 +115,8 @@ def query_llama(prompt: str, max_retries=3, delay=2) -> str:
     data = {
         'prompt': prompt,
         'stream': False,
-        'temperature': 0.7,
+        'temperature': 0.0,
+        'min_p': 0.1,
     }
 
     for attempt in range(max_retries):
