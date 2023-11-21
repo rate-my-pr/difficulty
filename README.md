@@ -1,4 +1,4 @@
-# pr-rating-action
+# difficulty
 A GitHub workflow designed to rate and tag your PRs by complexity.
 
 Provides a difficulty rating for PRs based on content diffs. Ratings are
@@ -28,7 +28,7 @@ jobs:
     if: github.event.pull_request.draft == false  # only run on PRs that are not drafts
     steps:
     - uses: actions/checkout@v2
-    - uses: pr-rating-action/gh-action@v1.0.0
+    - uses: pr-rating-action/difficulty@v1
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         LLAMA_URL: ${{ secrets.LLAMA_URL }}
