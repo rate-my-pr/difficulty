@@ -19,6 +19,10 @@ inputs:
     description: 'Pull request number'
     required: false
     default: ${{ github.event.pull_request.number }}
+  CTX_SIZE:
+    description: 'Number of tokens to consider in the LLMs context'
+    required: false
+    default: '64000'
 runs:
   using: 'composite'
   steps:
@@ -49,3 +53,4 @@ runs:
         OWNER: ${{ inputs.OWNER }}
         REPO: ${{ inputs.REPO }}
         PR_NUMBER: ${{ inputs.PR_NUMBER }}
+        CTX_SIZE: ${{ inputs.CTX_SIZE }}

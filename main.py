@@ -12,6 +12,7 @@ pr_number = os.environ.get('PR_NUMBER')
 github_token = os.environ.get('GITHUB_TOKEN')
 llama_url = os.environ.get('LLAMA_URL')
 dry_run = os.environ.get('DRY_RUN', False)
+ctx_size = os.environ.get('CTX_SIZE', 0)
 # strip trailing slash
 llama_url = llama_url[:-1] if llama_url.endswith('/') else llama_url
 
@@ -117,6 +118,7 @@ def query_llama(prompt: str, max_retries=3, delay=2) -> str:
         'stream': False,
         'temperature': 0.0,
         'min_p': 0.1,
+        'n_keep': ctx_size,
     }
 
     for attempt in range(max_retries):
