@@ -200,7 +200,7 @@ def add_comment_to_pr(repo_name, pr, comment_body, access_token):
 repo_desc = get_repo_desc(repo_name, github_token)
 pr_title, pr_desc = get_pr_desc(repo_name, pr_number, github_token)
 commit_messages = get_commit_messages(repo_name, pr_number, github_token)
-message_list = "\n".join(commit_messages)
+message_list = "\n----------".join(commit_messages)
 
 user_prompt = f"""
 --- {repo} ---
