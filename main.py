@@ -132,7 +132,7 @@ def query_llama(prompt: str, max_retries=3, delay=30) -> str:
                 llama_text = response.json()['content']
                 return llama_text
             else:
-                error_message = f'Failed to retrieve llama text: POST {response.status_code} {url}: {response.text}'
+                error_message = f'Failed to retrieve llama text: POST {response.status_code}: {response.text}'
                 if attempt < max_retries - 1:
                     time.sleep(delay)  # Wait for some time before retrying
                 else:
