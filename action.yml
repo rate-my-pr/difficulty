@@ -1,5 +1,5 @@
-name: 'PR Difficulty Rating'
-description: 'Provides a difficulty rating (BLUE, RED, BLACK) for your PRs and explains why they are rated this way.'
+name: 'Commit Message Clarity Rating'
+description: 'Use Llama.cpp to rate the clarity of a commit message.'
 inputs:
   GITHUB_TOKEN:
     description: 'GitHub Token for authentication'
