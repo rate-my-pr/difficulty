@@ -23,9 +23,9 @@ runs:
   using: 'composite'
   steps:
     - uses: actions/checkout@v3
-      if: github.repository != 'rate-my-pr/rate'
+      if: github.repository != 'rate-my-pr/difficulty'
       with:
-        repository: rate-my-pr/rate
+        repository: rate-my-pr/difficulty
     - name: Cache dependencies
       uses: actions/cache@v3
       with:
