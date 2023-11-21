@@ -1,16 +1,15 @@
-name: Test PR Difficulty Rating Action
+name: Test Commit Message Clarity Rating
 
 permissions:
   pull-requests: write
 
 on:
   pull_request:
-    types: [opened, reopened, ready_for_review]
+    types: [opened, reopened, synchronize]
 
 jobs:
-  difficulty-rating:
+  clarity-rating:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.draft == false
     steps:
       - uses: actions/checkout@v3
       - name: Integration test
