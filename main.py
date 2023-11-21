@@ -118,7 +118,7 @@ def query_llama(prompt: str, max_retries=3, delay=30) -> str:
         'stream': False,
         'temperature': 0.0,
         'min_p': 0.1,
-        'n_keep': ctx_size,
+        'n_keep': int(ctx_size),
     }
 
     for attempt in range(max_retries):
