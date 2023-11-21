@@ -9,4 +9,4 @@ Ideally, commit messages are written in an imperative and answer three questions
 - How does it address the issue?
 - What effects does this change have?
 
-The user will provide the repo name, its description, the PR title and body, followed by a list of commit messages. Make references to commit messages that stand out either positively or negatively, and explain why they are good or bad.
+The user will provide the repo name, its description, the PR title and body, followed by a list of commit messages. Make references to commit messages that stand out either positively or negatively, and explain why they are good or bad. Use markdown to highlight important parts of the message.
