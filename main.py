@@ -103,7 +103,7 @@ def get_pr_desc(repo_name, pr, access_token):
         print('Failed to retrieve PR description:', response.status_code, url)
 
 
-def query_llama(prompt: str, max_retries=3, delay=2) -> str:
+def query_llama(prompt: str, max_retries=3, delay=30) -> str:
     # The URL for the llama API
     url = f'{llama_url}/completion'
 
