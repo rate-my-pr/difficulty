@@ -12,6 +12,7 @@ pr_number = os.environ.get('PR_NUMBER')
 github_token = os.environ.get('GITHUB_TOKEN')
 llama_url = os.environ.get('LLAMA_URL')
 dry_run = os.environ.get('DRY_RUN', False)
+ctx_size = os.environ.get('CTX_SIZE', 0)
 # strip trailing slash
 llama_url = llama_url[:-1] if llama_url.endswith('/') else llama_url
 
@@ -102,7 +103,7 @@ def get_pr_desc(repo_name, pr, access_token):
         print('Failed to retrieve PR description:', response.status_code, url)
 
 
-def query_llama(prompt: str, max_retries=3, delay=2) -> str:
+def query_llama(prompt: str, max_retries=3, delay=30) -> str:
     # The URL for the llama API
     url = f'{llama_url}/completion'
 
@@ -117,6 +118,7 @@ def query_llama(prompt: str, max_retries=3, delay=2) -> str:
         'stream': False,
         'temperature': 0.0,
         'min_p': 0.1,
+        'n_keep': int(ctx_size),
     }
 
     for attempt in range(max_retries):
@@ -130,7 +132,7 @@ def query_llama(prompt: str, max_retries=3, delay=2) -> str:
                 llama_text = response.json()['content']
                 return llama_text
             else:
-                error_message = f'Failed to retrieve llama text: POST {response.status_code} {url}: {response.text}'
+                error_message = f'Failed to retrieve llama text: POST {response.status_code}: {response.text}'
                 if attempt < max_retries - 1:
                     time.sleep(delay)  # Wait for some time before retrying
                 else:
