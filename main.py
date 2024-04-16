@@ -116,8 +116,11 @@ def query_llama(prompt: str, max_retries=3, delay=30) -> str:
     data = {
         'prompt': prompt,
         'stream': False,
-        'temperature': 0.0,
+        'temperature': 0.5,
+        'repeat_penalty': 1.01,
+        'repeat_last_n': 0.01,
         'min_p': 0.1,
+        'slot_id': -1,
         'n_keep': int(ctx_size),
     }
 
