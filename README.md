@@ -28,7 +28,7 @@ jobs:
     if: github.event.pull_request.draft == false  # only run on PRs that are not drafts
     steps:
     - uses: actions/checkout@v2
-    - uses: pr-rating-action/difficulty@v1
+    - uses: pr-rating-action/difficulty@v2
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         LLAMA_URL: ${{ secrets.LLAMA_URL }}
